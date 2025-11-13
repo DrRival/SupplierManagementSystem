@@ -1,127 +1,114 @@
-📦 Supplier Management System
+# 📦 Supplier Management System
 
 A Flask-based inventory & procurement management application with automated database backup using SQLite triggers.
 
-📘 Overview
+---
 
-The Supplier Management System is a mini full-stack web application built using Flask, SQLite, Bootstrap 5, and Jinja2 templates.
-It helps organizations maintain suppliers, products, purchase orders, and automatically maintain a separate backup database through SQL triggers and Python replication logic.
+## 📘 Overview
 
-Ideal for MCA mini-projects, DBMS coursework, or a portfolio project.
+The **Supplier Management System** is a mini full-stack web application built using **Flask**, **SQLite**, **Bootstrap 5**, and **Jinja2 templates**.  
+It helps organizations maintain suppliers, products, purchase orders, and automatically maintain a **separate backup database** through SQL triggers and Python replication logic.
 
-🚀 Features
-1. Supplier Management
+Ideal for **MCA mini-projects**, **DBMS coursework**, or a **portfolio project**.
 
-Add suppliers
+---
 
-View supplier list
+## 🚀 Features
 
-Soft deactivate suppliers
+### **1. Supplier Management**
+- Add suppliers  
+- View supplier list  
+- Soft deactivate suppliers  
+- Track contact details, phone, city, state, email  
 
-Track contact details, phone, city, state, email
+### **2. Product Management**
+- Add new products  
+- Auto-audit each product insertion using triggers  
+- Track SKU, unit price, activity status  
 
-2. Product Management
+### **3. Purchase Orders**
+- Create purchase orders  
+- Add multiple items  
+- Auto-calculate totals  
+- View full order summary  
 
-Add new products
+### **4. Automatic Backup Database**
 
-Auto-audit each product insertion using triggers
+This project maintains **two SQLite databases**:
 
-Track SKU, unit price, activity status
+| Purpose | File |
+|--------|------|
+| Main operational DB | `supplier_mgmt.db` |
+| Permanent backup DB | `supplier_backup.db` |
 
-3. Purchase Orders
-
-Create purchase orders
-
-Add multiple items
-
-Auto-calculate totals
-
-View full order summary
-
-4. Automatic Backup Database
-
-This project maintains two databases:
-
-Purpose	File
-Main operational DB	supplier_mgmt.db
-Permanent backup DB	supplier_backup.db
-
-The workflow is:
-
-Triggers insert audit rows into products_audit and order_items_audit
-
-Python code detects new audit rows
-
-The rows are replicated to backup DB
-
-Even if the main DB item is deleted, backup remains safe
+**Backup Workflow:**
+1. Triggers insert audit rows into `products_audit` and `order_items_audit`  
+2. Python detects un-synced audit rows  
+3. Audit rows are replicated into the backup DB  
+4. Even if the main DB item is deleted → backup remains safe  
 
 This satisfies academic requirements for:
+- SQL **Triggers**
+- **Backup systems**
+- **Audit tables**
+- **DB consistency**
 
-Triggers
+---
 
-Backup systems
-
-Audit tables
-
-DB consistency
-
-5. Dashboard
-
+### **5. Dashboard**
 A clean dashboard showing:
+- Total suppliers  
+- Total products  
+- Total orders  
 
-Total suppliers
+---
 
-Total products
+### **6. Demo Data Seeder**
 
-Total orders
-
-6. Demo Data Seeder
-
-One-click:
-
-Insert Demo Data → `/seed_demo`
+One-click:/seed_demo
 
 
-This populates:
+Populates:
+- 2 suppliers  
+- 3 products  
+- 1 purchase order  
+- 2 order items  
+- Full backup replication  
 
-2 suppliers
+Perfect for **viva** and **presentations**.
 
-3 products
+---
 
-1 purchase order
-
-2 order items
-
-Full backup replication
-
-Perfect for viva and presentations.
-
-🗂️ Project Structure
+## 🗂️ Project Structure
 SupplierManagement/
 │
-├── app.py                     # Main Flask application
-│── supplier_mgmt.db          # Main database (auto-created)
-│── supplier_backup.db        # Backup DB (auto-created)
+├── app.py
+├── supplier_mgmt.db
+├── supplier_backup.db
 │
 ├── static/
-│   └── images/               # Screenshots for README / report
+│ └── images/
 │
 └── templates/
-    ├── base.html
-    ├── dashboard.html
-    ├── suppliers.html
-    ├── add_supplier.html
-    ├── products.html
-    ├── add_product.html
-    ├── orders.html
-    ├── add_order.html
-    ├── add_item.html
-    ├── order_detail.html
-    └── backup.html
+├── base.html
+├── dashboard.html
+├── suppliers.html
+├── add_supplier.html
+├── products.html
+├── add_product.html
+├── orders.html
+├── add_order.html
+├── add_item.html
+├── order_detail.html
+└── backup.html
 
-🛠️ Installation & Setup
-1. Clone the Repository
+
+---
+
+## 🛠️ Installation & Setup
+
+### **1. Clone the Repository**
+```bash
 git clone https://github.com/DrRival/SupplierManagementSystem.git
 cd SupplierManagementSystem
 
@@ -131,7 +118,7 @@ python -m venv venv
 
 Activate:
 
-Windows
+Windows:
 
 venv\Scripts\activate
 
@@ -139,13 +126,13 @@ venv\Scripts\activate
 pip install flask
 
 
-SQLite needs no installation — part of Python.
+SQLite comes pre-installed with Python.
 
 4. Run the Application
 python app.py
 
 
-Visit:
+Visit in browser:
 
 http://127.0.0.1:5000
 
@@ -166,13 +153,13 @@ products_audit
 
 order_items_audit
 
-Backup Tables (separate DB)
+Backup DB Tables
 
 products_backup
 
 order_items_backup
 
-Triggers
+Triggers Used
 CREATE TRIGGER trg_products_audit
 AFTER INSERT ON products
 BEGIN
@@ -190,11 +177,7 @@ END;
 🖼️ Screenshots
 
 Place images in:
-
 static/images/
-
-
-And embed like this (already included in your repo):
 
 ![Dashboard](static/images/dashboard_main.png)
 ![Suppliers](static/images/suppliers_page.png)
@@ -202,35 +185,36 @@ And embed like this (already included in your repo):
 ![Backup](static/images/backup_db_viewer.png)
 ![Add Item](static/images/add_item_form.png)
 
-📚 How Backup Works (For Viva)
+📚 How Backup Works (Viva Explanation)
 
-If a product is added → trigger fires → audit stored → Python copies → permanent backup DB updated.
+You add a product → trigger fires
 
-Even if the main table row is deleted:
+Trigger inserts a row into products_audit
 
-SELECT * FROM products_backup;
+Python checks for new audit rows
 
+New rows are replicated to backup DB
 
-The backup remains intact.
+Even if main DB product is deleted → backup remains
 
-This proves:
+This demonstrates:
 
 Trigger correctness
 
-Backup replication logic
+Backup system stability
 
-DB consistency
+Data replication mechanism
 
-Perfect viva scoring topic.
+Data integrity maintenance
 
 🧪 Demo Data Included
 
-Running:
+When visiting:
 
 http://127.0.0.1:5000/seed_demo
 
 
-Creates:
+The app creates:
 
 Suppliers
 
@@ -248,9 +232,9 @@ Raspberry Pi 4B
 
 Orders
 
-One PO with 2 items
+1 order with 2 items
 
-All automatically backed up.
+Backup DB is updated automatically.
 
 📄 License
 
