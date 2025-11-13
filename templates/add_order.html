@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block page_title %}<i class="bi bi-cart-plus me-2"></i>Create Purchase Order{% endblock %}
+{% block content %}
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Supplier *</label>
+                <select name="supplier_id" class="form-select" required>
+                    <option value="">-- Select Supplier --</option>
+                    {% for s in suppliers %}
+                    <option value="{{ s['supplier_id'] }}">{{ s['name'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control" rows="3"></textarea>
+            </div>
+
+            <button class="btn btn-primary"><i class="bi bi-check2-circle me-1"></i>Create Order</button>
+            <a href="{{ url_for('orders') }}" class="btn btn-secondary">Cancel</a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

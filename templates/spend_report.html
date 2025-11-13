@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block page_title %}<i class="bi bi-graph-up-arrow me-2"></i>Spend by Supplier{% endblock %}
+{% block content %}
+<div class="card shadow-sm border-0">
+  <div class="card-body">
+    {% if rows %}
+      <table class="table align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Supplier</th>
+            <th class="text-end">Total Spend (₹)</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for r in rows %}
+          <tr>
+            <td>
+              <i class="bi bi-building me-1 text-muted"></i>{{ r['name'] }}
+            </td>
+            <td class="text-end">{{ "%.2f"|format(r['spend']) }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="mb-0 text-muted">No spend data yet. Create and mark orders as PLACED/RECEIVED.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

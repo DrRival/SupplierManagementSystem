@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block page_title %}<i class="bi bi-database-lock me-2"></i>Backup Database{% endblock %}
+
+{% block content %}
+
+<h5 class="mb-3">Products Backup</h5>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+
+        {% if products %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product ID</th>
+                    <th>Name</th>
+                    <th>SKU</th>
+                    <th>Price</th>
+                    <th>Backed Up At</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for p in products %}
+                <tr>
+                    <td>{{ p.backup_id }}</td>
+                    <td>{{ p.product_id }}</td>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.sku }}</td>
+                    <td>?{{ "%.2f"|format(p.unit_price) }}</td>
+                    <td>{{ p.backed_up_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+        {% else %}
+        <p class="text-muted">No product backups yet.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+<h5 class="mb-3">Order Items Backup</h5>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+
+        {% if items %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Item ID</th>
+                    <th>Order ID</th>
+                    <th>Product ID</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Backed Up At</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for it in items %}
+                <tr>
+                    <td>{{ it.backup_id }}</td>
+                    <td>{{ it.item_id }}</td>
+                    <td>{{ it.order_id }}</td>
+                    <td>{{ it.product_id }}</td>
+                    <td>{{ it.description }}</td>
+                    <td>{{ it.quantity }}</td>
+                    <td>?{{ "%.2f"|format(it.unit_price) }}</td>
+                    <td>{{ it.backed_up_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        <p class="text-muted">No order item backups yet.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

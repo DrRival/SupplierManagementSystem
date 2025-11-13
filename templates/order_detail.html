@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block page_title %}<i class="bi bi-file-earmark-text me-2"></i>Order #{{ order.order_id }}{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+
+        <h5>Order Information</h5>
+        <p class="mb-1">Supplier: <strong>{{ order.supplier }}</strong></p>
+        <p class="mb-1">Date: <strong>{{ order.order_date }}</strong></p>
+        <p class="mb-1">Status: <strong>{{ order.status }}</strong></p>
+        <p class="mb-1">Notes: {{ order.notes or '-' }}</p>
+        <p class="mb-0">Order Total: <strong>₹{{ "%.2f"|format(order.total) }}</strong></p>
+
+    </div>
+</div>
+
+<div class="d-flex justify-content-between mb-3">
+    <h5>Order Items</h5>
+
+    <a href="{{ url_for('add_item', oid=order.order_id) }}" class="btn btn-success btn-sm">
+        <i class="bi bi-plus-circle me-1"></i>Add Item
+    </a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+
+        {% if items %}
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for it in items %}
+                <tr>
+                    <td>{{ it.description }}</td>
+                    <td>{{ it.quantity }}</td>
+                    <td>₹{{ "%.2f"|format(it.unit_price) }}</td>
+                    <td>₹{{ "%.2f"|format(it.total) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+        {% else %}
+        <p class="text-muted mb-0">No items yet.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

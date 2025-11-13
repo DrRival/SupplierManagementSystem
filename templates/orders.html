@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block page_title %}<i class="bi bi-cart-check me-2"></i>Purchase Orders{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+    <div></div>
+    <a href="{{ url_for('add_order') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>Create Order
+    </a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+
+        {% if orders %}
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Supplier</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for o in orders %}
+                <tr>
+                    <td>{{ o.order_id }}</td>
+                    <td>{{ o.order_date }}</td>
+                    <td>{{ o.supplier }}</td>
+                    <td>{{ o.status }}</td>
+                    <td>₹{{ "%.2f"|format(o.total) }}</td>
+
+                    <td>
+                        <a href="{{ url_for('order_detail', oid=o.order_id) }}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+        {% else %}
+        <p class="text-muted mb-0">No orders yet.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

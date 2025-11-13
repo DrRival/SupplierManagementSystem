@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- FIXED TITLE (no block usage here) -->
+    <title>{{ self.page_title() }} - Supplier Manager</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: #0d6efd;
+            color: white;
+            padding: 20px 0;
+        }
+
+            .sidebar a {
+                color: #ffffffd9;
+                padding: 12px 22px;
+                display: block;
+                text-decoration: none;
+                font-size: 15px;
+            }
+
+                .sidebar a:hover, .sidebar a.active {
+                    background: rgba(255,255,255,0.15);
+                    color: #fff;
+                }
+
+        .content {
+            margin-left: 260px;
+            padding: 30px;
+        }
+
+        .badge-status {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4 class="text-center mb-4">
+            <i class="bi bi-boxes me-2"></i>Supplier Manager
+        </h4>
+
+        <a href="{{ url_for('dashboard') }}" class="{% if request.path=='/' %}active{% endif %}">
+            <i class="bi bi-speedometer2 me-2"></i>Dashboard
+        </a>
+
+        <a href="{{ url_for('suppliers') }}" class="{% if 'suppliers' in request.path %}active{% endif %}">
+            <i class="bi bi-people-fill me-2"></i>Suppliers
+        </a>
+
+        <a href="{{ url_for('products') }}" class="{% if 'products' in request.path %}active{% endif %}">
+            <i class="bi bi-box-seam me-2"></i>Products
+        </a>
+
+        <a href="{{ url_for('orders') }}" class="{% if 'orders' in request.path %}active{% endif %}">
+            <i class="bi bi-cart-check me-2"></i>Orders
+        </a>
+
+        <a href="{{ url_for('backup_viewer') }}" class="{% if 'backup' in request.path %}active{% endif %}">
+            <i class="bi bi-database-lock me-2"></i>Backup DB
+        </a>
+
+        <hr class="text-white">
+
+        <a href="{{ url_for('seed_demo_route') }}">
+            <i class="bi bi-stars me-2"></i>Insert Demo Data
+        </a>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="mt-2">
+            {% for category, msg in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ msg }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- ONLY ONE block here -->
+        <h3 class="mb-4">{% block page_title %}Dashboard{% endblock %}</h3>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
